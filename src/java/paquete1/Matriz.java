@@ -231,4 +231,15 @@ public class Matriz implements java.io.Serializable {
         
         return d <= 10; //10m de separacion entre los puntos se considera como igual
     }
+    
+    public String llenar_matriz(String posicion,String perfil){
+        String info="Matriz llena";
+        Nodo nuevo = new Nodo(posicion, perfil);
+        for(int j = 0; j < 4; j++){
+            for (int i = 0; i < 72; i++) {
+                matrix[i][j] = nuevo;
+            }
+        }
+        return info;
+    }
 }

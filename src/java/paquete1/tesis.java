@@ -166,5 +166,35 @@ public class tesis {
         }
         //////////////        
     }
+    
+    
+    
+    @WebMethod(operationName = "llenar")
+    public String llenar(String id_phone,String perfil, int dia, String posicion) throws IOException, ClassNotFoundException {
+        String sFichero = id_phone + "_" + dia + ".dat"; //se busca el fichero del usuario
+        String prueba = "no se creo fichero";
+        if (sFichero.equals("")) {
+            return "nulo";
+        }
+        File fichero = new File(sFichero);
+        Matriz mat = new Matriz();
+        if (fichero.exists()) { // si el fichero existe se lee
+            mat.leer(sFichero);
+            prueba = "fichero ya existe";
+        } else { // de lo contrario se crea y se lee
+            mat.escribir(sFichero);
+            prueba = "fichero no existía";
+        }
+        //ya tengo un documento estable por cada telefono
+        prueba = mat.llenar_matriz(posicion, perfil);
+        mat.escribir(sFichero);
+        
+        new Conexion().insertarBitacora(id_phone, CONSULTAR_DATOS, "Se lleno la matriz en ["+posicion+"], "
+                + "El servidor retorno: ["+prueba+"]");
+        
+        return prueba;
+    }
+    
+
 
 }
