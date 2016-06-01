@@ -68,7 +68,7 @@ public class tesis {
         Conexion conn = new Conexion();
 
         try {
-            conn.ejecutarUpdate("insert into usuario(mail,pass,nombre)values ('" + correo + "','" + pass + "','" + nombre + "');");
+            conn.ejecutarUpdate("insert into usuario(mail,pass,nombre)values ('" + correo + "',md5('" + pass + "'),'" + nombre + "');");
             return get_id(correo, pass);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -84,7 +84,7 @@ public class tesis {
         ResultSet rs;
 
         try {
-            rs = conn.ejecutarQuery("select id_user from usuario where mail='" + correo + "' and pass='" + pass + "';");
+            rs = conn.ejecutarQuery("select id_user from usuario where mail='" + correo + "' and pass= md5('" + pass + "');");
             String resultado = "";
 
             while (rs.next()) {
