@@ -93,6 +93,7 @@ public class tesis {
             if (resultado.equals("")) {
                 resultado = "#Error";
             }
+            conn.close();
             return resultado;
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -130,6 +131,7 @@ public class tesis {
             if (resultado.equals("")) {
                 resultado = "#Error";
             }
+            conn.close();
             return resultado;
 
         } catch (SQLException ex) {

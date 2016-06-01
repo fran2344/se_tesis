@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,6 +23,10 @@ public class Conexion {
     private final String driver;
 
     private final String url;
+    
+    private Connection conn;
+    private Statement stmt;
+    private ResultSet rs;
 
     public Conexion() {
         this.host = "localhost";
@@ -33,6 +39,8 @@ public class Conexion {
         this.driver = "jdbc:postgresql";
 
         this.url = driver + "://" + host + ":" + port + "/" + db;
+        
+        this.conn = null;
     }
 
     private Connection getConexion() {
@@ -47,8 +55,7 @@ public class Conexion {
     }
 
     public void ejecutarUpdate(String query) throws SQLException {
-        Connection conn = getConexion();
-        Statement stmt;
+        conn = getConexion();
 
         conn.setAutoCommit(false);
         stmt = conn.createStatement();
@@ -59,16 +66,23 @@ public class Conexion {
     }
 
     public ResultSet ejecutarQuery(String query) throws SQLException {
-        Connection conn = getConexion();
-        Statement stmt;
-        ResultSet rs;
+        conn = getConexion();
 
         conn.setAutoCommit(false);
         stmt = conn.createStatement();
         rs = stmt.executeQuery(query);
-        stmt.close();
-        conn.close();
         return rs;
+    }
+    
+    public void close(){
+        try {
+            this.conn.close();
+            this.stmt.close();
+            this.rs.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("Error al cerrar objetos en clase Conexion.");
+        }
     }
 
 }
