@@ -14,6 +14,7 @@ public class tesis {
 
     @WebMethod(operationName = "consultar")
     public String consultar(String id_phone, String hora, String posicion, int dia_del_mes, int dia) throws IOException, ClassNotFoundException {
+        if(dia_del_mes==5)dia_del_mes=4;
         String sFichero = id_phone + "_" + dia + ".dat"; //se busca el fichero del usuario
         String prueba = "no se creo fichero";
         if (sFichero.equals("")) {
@@ -41,6 +42,7 @@ public class tesis {
 
     @WebMethod(operationName = "ingresar_perfil")
     public String ingresar_perfil(String id_phone, String hora, String posicion, int dia_del_mes, String perfil, int dia) throws IOException, ClassNotFoundException {
+        if(dia_del_mes==5)dia_del_mes=4;
         String sFichero = id_phone + "_" + dia + ".dat"; //se busca el fichero del usuario
         String prueba = "no se creo fichero";
         if (sFichero.equals("")) {
