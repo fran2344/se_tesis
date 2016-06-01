@@ -23,7 +23,7 @@ public class Conexion {
     private final String driver;
 
     private final String url;
-    
+
     private Connection conn;
     private Statement stmt;
     private ResultSet rs;
@@ -39,7 +39,7 @@ public class Conexion {
         this.driver = "jdbc:postgresql";
 
         this.url = driver + "://" + host + ":" + port + "/" + db;
-        
+
         this.conn = null;
     }
 
@@ -73,12 +73,31 @@ public class Conexion {
         rs = stmt.executeQuery(query);
         return rs;
     }
-    
-    public void close(){
+
+    public void insertarBitacora(String user, accion_log accion, String descripcion) {
+        int acc = accion.ordinal() + 1;
+        descripcion = descripcion.replace("\n", "");
+        String query = "INSERT INTO bitacora(id_accion,fecha,id_usuario,descripcion) "
+                + "VALUES(" + acc + ",CURRENT_TIMESTAMP," + user + ",'" + descripcion + "');";
+
         try {
-            this.conn.close();
+            conn = getConexion();
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+            close();
+        } catch (SQLException ex) {
+            System.out.println(query);
+            System.out.println("BITACORA: " + ex.getMessage());
+        }
+
+    }
+
+    public void close() {
+        try {
+            this.conn.commit();
             this.stmt.close();
-            this.rs.close();
+            this.conn.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("Error al cerrar objetos en clase Conexion.");

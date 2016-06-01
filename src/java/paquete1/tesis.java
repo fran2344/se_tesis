@@ -1,6 +1,7 @@
 package paquete1;
 
 import DB.Conexion;
+import static DB.accion_log.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -31,6 +32,10 @@ public class tesis {
         mat.bandera = dia_del_mes;
         prueba = mat.consulta(hora, posicion, dia_del_mes);
         mat.escribir(sFichero);
+        
+        new Conexion().insertarBitacora(id_phone, CONSULTAR_DATOS, "Consulta de datos desde la posicion ["+posicion+"], "
+                + "El servidor retorno: ["+prueba+"]");
+        
         return prueba;
     }
 
@@ -59,6 +64,10 @@ public class tesis {
         mat.bandera = dia_del_mes;
         mat.ingresar(hora, posicion, perfil);
         mat.escribir(sFichero);
+        
+        new Conexion().insertarBitacora(id_phone, APLICAR_PERFIL, "Se aplico el perfil ["+perfil+"] "
+                + "en la posicion: ["+posicion+"]");
+        
         return prueba;
     }
 
@@ -69,7 +78,11 @@ public class tesis {
 
         try {
             conn.ejecutarUpdate("insert into usuario(mail,pass,nombre)values ('" + correo + "',md5('" + pass + "'),'" + nombre + "');");
-            return get_id(correo, pass);
+            
+            String user = get_id(correo,pass);
+            conn.insertarBitacora(user, REGISTRO, "Registro de nuevo usuario.");
+            
+            return user;
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return "#Error";
@@ -94,6 +107,11 @@ public class tesis {
                 resultado = "#Error";
             }
             conn.close();
+            
+            if(!resultado.equals("#Error")){
+                conn.insertarBitacora(resultado, LOGIN, "Usuario autenticado en la app.");
+            }
+            
             return resultado;
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -109,6 +127,7 @@ public class tesis {
 
         try {
             conn.ejecutarUpdate("insert into perfil(id_usuario,perfil) values(" + id_usuario + ",'" + perfil + "');");
+            conn.insertarBitacora(id_usuario, CREAR_PERFIL,"Se creo el perfil ["+perfil+"]");
             return "true";
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -132,6 +151,11 @@ public class tesis {
                 resultado = "#Error";
             }
             conn.close();
+            
+            if(!resultado.equals("#Error")){
+                conn.insertarBitacora(id_usuario, CONSULTAR_DATOS, "Obtener lista de perfiles.");
+            }
+            
             return resultado;
 
         } catch (SQLException ex) {
