@@ -60,7 +60,7 @@ public class tesis {
         //ya tengo un documento estable por cada telefono
 
         ///aqui registramos el perfil en la bd
-        prueba = set_perfil(id_phone, perfil);
+        //prueba = set_perfil(id_phone, perfil); Mejor ya no lo hacemos :D
         ////
 
         mat.bandera = dia_del_mes;
