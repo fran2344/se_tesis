@@ -1,3 +1,4 @@
 */*.class
 */*.war
 build/web/WEB-INF/classes/*
+/dist/

@@ -93,7 +93,7 @@ public class Matriz implements java.io.Serializable {
         int H = convertir_minuto(Minute);
         H = Hours + H;
 
-        for (int i = H; i < 72; i++) {
+        for (int i = H; i < H+1; i++) {
             matrix[i][bandera] = nuevo;
         }
     }
