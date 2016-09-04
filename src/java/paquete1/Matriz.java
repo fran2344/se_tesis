@@ -150,27 +150,41 @@ public class Matriz implements java.io.Serializable {
                 return info; //si todos los nodos de todos los dias estan vacios se devuelbe cadena de nulo
             } else { //el temporal 2 si esta lleno
                 if (compararPosiciones(temp2.posicion,this.posicion_g)) { //esta parte cumple la premisa 2
-                    info = "aqui entrego el perfil";
+                    info = "$"+ temp2.perfil; // aqui se entrega el perfil
+                    return info;
+                }else{
+                    info= "# no deberias estar en " + temp2.posicion;
+                    return info;
                 }
             }
         } else if (temp2 == null) { //si el segundo nodo esta vacio ya sabemos que el primero no esta vacio
             if (compararPosiciones(temp1.posicion,this.posicion_g)) {
-                info = "$" + temp1.posicion;
+                info = "$" + temp1.perfil; // aqui se entrega el perfil
+                return info;
+            }else{
+                info= "# no deberias estar en " + temp1.posicion;
+                return info;
             }
         } else { //ninguno esta vacio 2 posibilidades
             if (compararPosiciones(temp1.posicion,this.posicion_g) && compararPosiciones(temp2.posicion,this.posicion_g)) {
                 //ambos tienen la posicion correcta y perfil igual
                 if (compararPerfiles(temp1.perfil, temp2.perfil)) {
                     info = "$" + temp1.perfil; // se envia el perfil de cualquiera de los 2
+                    return info;
                     //ambos tienen la posicion correcta y perfil distinto    
                 } else {
                     info = "$" + temp1.perfil; //tomo el perfil del dia mas cercano
+                    return info;
                 }
                 //solo 1 tiene la posicion correcta
             } else if (compararPosiciones(temp1.posicion,this.posicion_g)) {
                 info = "$" + temp1.perfil;
+                return info;
             } else if (compararPosiciones(temp2.posicion,this.posicion_g)) {
                 info = "$" + temp2.perfil;
+                return info;
+            }else{
+                info ="# no deberias estar en " + temp1.posicion;
             }
         }
         return info;

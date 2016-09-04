@@ -32,7 +32,7 @@ public class tesis {
         //ya tengo un documento estable por cada telefono
         mat.bandera = dia_del_mes;
         prueba = mat.consulta(hora, posicion, dia_del_mes);
-        mat.escribir(sFichero);
+        mat.escribir(sFichero); // grabo cambios en el fichero creado
         
         new Conexion().insertarBitacora(id_phone, CONSULTAR_DATOS, "Consulta de datos desde la posicion ["+posicion+"], "
                 + "El servidor retorno: ["+prueba+"]");
