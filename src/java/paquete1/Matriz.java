@@ -1,5 +1,6 @@
 package paquete1;
 
+import WS.translator;
 import java.io.*;
 
 public class Matriz implements java.io.Serializable {
@@ -22,6 +23,7 @@ public class Matriz implements java.io.Serializable {
         int Minute = Integer.parseInt(hora_minuto[1]);
         int H = convertir_minuto(Minute);
         H = Hours + H;
+        
         if (matrix[H][bandera] != null) { //si la posicion consultada esta llena
             if (compararPosiciones(matrix[H][bandera].posicion,P)) { //si la posicion es la misma ya guardada
                 info = "$" + matrix[H][bandera].perfil;
@@ -101,6 +103,8 @@ public class Matriz implements java.io.Serializable {
     public String analizar(Nodo temp1, Nodo temp2, Nodo temp3) {
         // analizamos si alguno de los 3 esta vacio se manda a analisis 2
         String info = "";
+        translator tr = new translator();
+        
         if (temp1 == null) {
             info = analizar2(temp2, temp3);
         } else if (temp2 == null) {
@@ -113,7 +117,7 @@ public class Matriz implements java.io.Serializable {
                 if (compararPosiciones(temp1.perfil,this.posicion_g)) {
                     info = "$" + temp1.perfil;  // $ indica que se devuelve el perfil.
                 } else {
-                    info = "# no deberias estar en " + temp1.posicion; // #indica un mensaje al usuario en este caso.
+                    info = "#No deberias estar en " + tr.translate(temp1.posicion); // #indica un mensaje al usuario en este caso.
                     // envia un mensaje indicando si no se deberia estan en algun lugar.
                 }
             } else {
@@ -145,6 +149,8 @@ public class Matriz implements java.io.Serializable {
 
     public String analizar2(Nodo temp1, Nodo temp2) {
         String info = "";
+        translator tr = new translator();
+        
         if (temp1 == null) { //si el primer nodo esta vacio revisamos si el segundo tambien
             if (temp2 == null) {
                 return info; //si todos los nodos de todos los dias estan vacios se devuelbe cadena de nulo
@@ -153,7 +159,7 @@ public class Matriz implements java.io.Serializable {
                     info = "$"+ temp2.perfil; // aqui se entrega el perfil
                     return info;
                 }else{
-                    info= "# no deberias estar en " + temp2.posicion;
+                    info= "#No deberias estar en " + tr.translate(temp2.posicion);
                     return info;
                 }
             }
@@ -162,7 +168,7 @@ public class Matriz implements java.io.Serializable {
                 info = "$" + temp1.perfil; // aqui se entrega el perfil
                 return info;
             }else{
-                info= "# no deberias estar en " + temp1.posicion;
+                info= "#No deberias estar en " + tr.translate(temp1.posicion);
                 return info;
             }
         } else { //ninguno esta vacio 2 posibilidades
@@ -184,7 +190,7 @@ public class Matriz implements java.io.Serializable {
                 info = "$" + temp2.perfil;
                 return info;
             }else{
-                info ="# no deberias estar en " + temp1.posicion;
+                info ="#No deberias estar en " + tr.translate(temp1.posicion);
             }
         }
         return info;
