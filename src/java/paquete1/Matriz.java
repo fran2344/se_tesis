@@ -216,8 +216,7 @@ public class Matriz implements java.io.Serializable {
         JSONObject json1 = new JSONObject(perfil1);
         JSONObject json2 = new JSONObject(perfil2);
         
-        return json1.getString("name").equals(json2.getString("name"))
-                && json1.getBoolean("vibrate") == json2.getBoolean("vibrate")
+        return json1.getBoolean("vibrate") == json2.getBoolean("vibrate")
                 && json1.getInt("volume") == json2.getInt("volume");
     }
 
