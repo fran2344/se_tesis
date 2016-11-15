@@ -50,12 +50,16 @@ public class tesis {
         }
         File fichero = new File(sFichero);
         Matriz mat = new Matriz();
+        Conexion conn = new Conexion();
         if (fichero.exists()) { // si el fichero existe se lee
             mat.leer(sFichero);
             prueba = "fichero ya existe";
+            conn.insertarBitacora(id_phone, OTROS, "No existia el fichero");
+            
         } else { // de lo contrario se crea y se lee
             mat.escribir(sFichero);
             prueba = "fichero no existía";
+            conn.insertarBitacora(id_phone, OTROS, "Fichero ya existia");
         }
         //ya tengo un documento estable por cada telefono
 
@@ -178,12 +182,15 @@ public class tesis {
         }
         File fichero = new File(sFichero);
         Matriz mat = new Matriz();
+        Conexion conn = new Conexion();
         if (fichero.exists()) { // si el fichero existe se lee
             mat.leer(sFichero);
             prueba = "fichero ya existe";
+            conn.insertarBitacora(id_phone, OTROS, "Ya existia el fichero [llenar]");
         } else { // de lo contrario se crea y se lee
             mat.escribir(sFichero);
             prueba = "fichero no existía";
+            conn.insertarBitacora(id_phone, OTROS, "No existia el fichero [llenar]");
         }
         //ya tengo un documento estable por cada telefono
         prueba = mat.llenar_matriz(posicion, perfil);

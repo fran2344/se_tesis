@@ -188,7 +188,7 @@ public class Matriz implements java.io.Serializable {
             info = "$" + temp2.perfil;
             return info;
         } else {
-            info = "#No deberias estar en " + tr.translate(temp1.posicion);
+            info = "#No deberias estar en " + tr.translate(temp1.posicion)+" ?";
         }
         return info;
     }
