@@ -25,11 +25,11 @@ public class tesis {
         if (fichero.exists()) { // si el fichero existe se lee
             mat.leer(sFichero);
             prueba = "fichero ya existe";
-            new Conexion().insertarBitacora(id_phone, OTROS, "Fichero ya existe '"+sFichero+"' [consultar]");
+            new Conexion().insertarBitacora(id_phone, OTROS, "Fichero ya existe ["+sFichero+"] [consultar]");
         } else { // de lo contrario se crea y se lee
             mat.escribir(sFichero);
             prueba = "fichero no existía";
-            new Conexion().insertarBitacora(id_phone, OTROS, "Fichero no existia '"+sFichero+"' [consultar]");
+            new Conexion().insertarBitacora(id_phone, OTROS, "Fichero no existia ["+sFichero+"] [consultar]");
         }
         //ya tengo un documento estable por cada telefono
         mat.bandera = dia_del_mes;
@@ -56,12 +56,12 @@ public class tesis {
         if (fichero.exists()) { // si el fichero existe se lee
             mat.leer(sFichero);
             prueba = "fichero ya existe";
-            conn.insertarBitacora(id_phone, OTROS, "Fichero ya existe '"+sFichero+"' [ingresar_perfil]");
+            conn.insertarBitacora(id_phone, OTROS, "Fichero ya existe ["+sFichero+"] [ingresar_perfil]");
             
         } else { // de lo contrario se crea y se lee
             mat.escribir(sFichero);
             prueba = "fichero no existía";
-            conn.insertarBitacora(id_phone, OTROS, "Fichero no existia '"+sFichero+"' [ingresar_perfil]");
+            conn.insertarBitacora(id_phone, OTROS, "Fichero no existia ["+sFichero+"] [ingresar_perfil]");
         }
         //ya tengo un documento estable por cada telefono
 
@@ -188,11 +188,11 @@ public class tesis {
         if (fichero.exists()) { // si el fichero existe se lee
             mat.leer(sFichero);
             prueba = "fichero ya existe";
-            conn.insertarBitacora(id_phone, OTROS, "Ya existia el fichero '"+sFichero+"' [llenar]");
+            conn.insertarBitacora(id_phone, OTROS, "Ya existia el fichero ["+sFichero+"] [llenar]");
         } else { // de lo contrario se crea y se lee
             mat.escribir(sFichero);
             prueba = "fichero no existía";
-            conn.insertarBitacora(id_phone, OTROS, "No existia el fichero '"+sFichero+"' [llenar]");
+            conn.insertarBitacora(id_phone, OTROS, "No existia el fichero ["+sFichero+"] [llenar]");
         }
         //ya tengo un documento estable por cada telefono
         prueba = mat.llenar_matriz(posicion, perfil);
