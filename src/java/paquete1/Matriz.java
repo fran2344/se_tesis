@@ -3,9 +3,11 @@ package paquete1;
 import WS.translator;
 import java.io.*;
 import org.json.JSONObject;
+import DB.Conexion;
+import static DB.accion_log.*;
 
 public class Matriz implements java.io.Serializable {
-    
+
     public int id;
     public Nodo[][] matrix = new Nodo[72][4];
     public int bandera = 0;
@@ -14,9 +16,9 @@ public class Matriz implements java.io.Serializable {
 //primer lunes del mes o segundo o tercero
 
     public Matriz() {
-        
+
     }
-    
+
     public String consulta(String Hora, String P, int bandera) { //aqui deberia ir tambien el parametro perfil (hora y posición)
         String info = "";
         String[] hora_minuto = Hora.split(":");
@@ -24,7 +26,7 @@ public class Matriz implements java.io.Serializable {
         int Minute = Integer.parseInt(hora_minuto[1]);
         int H = convertir_minuto(Minute);
         H = Hours + H;
-        
+
         if (matrix[H][bandera] != null) { //si la posicion consultada esta llena
             if (compararPosiciones(matrix[H][bandera].posicion, P)) { //si la posicion es la misma ya guardada
                 info = "$" + matrix[H][bandera].perfil;
@@ -68,13 +70,16 @@ public class Matriz implements java.io.Serializable {
         } else {
             //no se hace nada porque no ha configurado un perfil para ese dia
             //podriamos hacer una sugerencia
+            new Conexion().insertarBitacora("19", OTROS, "Se opera sobre Fila: "+H+" Pero se encuentra vacia dia:"+P);
         }
         if (info.equals("")) {
             info = "null";
         }
+        //Esta para revisar el buen funcionamiento de H
+        new Conexion().insertarBitacora("19", OTROS, "Se opera sobre Fila: "+H+" y dia del mes: "+P);
         return info;
     }
-    
+
     public int convertir_minuto(int minuto) { //devuelve un minuto como puntero de la matriz
         int minute = 0;
         if (minute <= 20) {
@@ -86,26 +91,26 @@ public class Matriz implements java.io.Serializable {
         }
         return minute;
     }
-    
+
     public void ingresar(String Hora, String P, String perfil) {
         Nodo nuevo = new Nodo(P, perfil);
-        
+
         String[] hora_minuto = Hora.split(":");
         int Hours = Integer.parseInt(hora_minuto[0]);
         int Minute = Integer.parseInt(hora_minuto[1]);
         int H = convertir_minuto(Minute);
         H = Hours + H;
-        
+
         for (int i = H; i < H + 1; i++) {
             matrix[i][bandera] = nuevo;
         }
     }
-    
+
     public String analizar(Nodo temp1, Nodo temp2, Nodo temp3) {
         // analizamos si alguno de los 3 esta vacio se manda a analisis 2
         String info = "";
         translator tr = new translator();
-        
+
         if (temp1 == null) {
             info = analizar2(temp2, temp3);
         } else if (temp2 == null) {
@@ -145,11 +150,11 @@ public class Matriz implements java.io.Serializable {
         }
         return info;
     }
-    
+
     public String analizar2(Nodo temp1, Nodo temp2) {
         String info = "";
         translator tr = new translator();
-        
+
         if (temp1 == null) { //si el primer nodo esta vacio revisamos si el segundo tambien
             if (temp2 == null) {
                 return info; //si todos los nodos de todos los dias estan vacios se devuelbe cadena de nulo
@@ -175,7 +180,7 @@ public class Matriz implements java.io.Serializable {
             if (compararPerfiles(temp1.perfil, temp2.perfil)) {
                 info = "$" + temp1.perfil; // se envia el perfil de cualquiera de los 2
                 return info;
-                //ambos tienen la posicion correcta y perfil distinto    
+                //ambos tienen la posicion correcta y perfil distinto
             } else {
                 info = "$" + temp1.perfil; //tomo el perfil del dia mas cercano
                 return info;
@@ -192,7 +197,7 @@ public class Matriz implements java.io.Serializable {
         }
         return info;
     }
-    
+
     public void escribir(String fichero) throws IOException, ClassNotFoundException { //metodo para serializar la matriz
         //
         FileOutputStream fos = new FileOutputStream(fichero);
@@ -201,7 +206,7 @@ public class Matriz implements java.io.Serializable {
         fos.close();
         //
     }
-    
+
     public void leer(String fichero) throws IOException, ClassNotFoundException {
         Nodo[][] matrix2 = new Nodo[72][4];
         FileInputStream fis = new FileInputStream(fichero);
@@ -210,12 +215,12 @@ public class Matriz implements java.io.Serializable {
         matrix = matrix2;
         fis.close();
     }
-    
+
     private boolean compararPerfiles(String perfil1, String perfil2) {
-        
+
         JSONObject json1 = new JSONObject(perfil1);
         JSONObject json2 = new JSONObject(perfil2);
-        
+
         return json1.getBoolean("vibrate") == json2.getBoolean("vibrate")
                 && json1.getInt("volume") == json2.getInt("volume");
     }
@@ -224,30 +229,30 @@ public class Matriz implements java.io.Serializable {
     private boolean compararPosiciones(String posicion1, String posicion2) {
         String[] arrp1 = posicion1.split(",");
         String[] arrp2 = posicion2.split(",");
-        
+
         double lat1 = Double.parseDouble(arrp1[0]);
         double lon1 = Double.parseDouble(arrp1[1]);
-        
+
         double lat2 = Double.parseDouble(arrp2[0]);
         double lon2 = Double.parseDouble(arrp2[1]);
-        
+
         lat1 *= Math.PI / 180;
         lon1 *= Math.PI / 180;
-        
+
         lat2 *= Math.PI / 180;
         lon2 *= Math.PI / 180;
-        
+
         double deltaLon = lon2 - lon1;
         double deltaLat = lat2 - lat1;
-        
+
         double R = 6371;
         double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = R * c * 1000; // *1000 para que sean metros
-        
-        return d <= 10; //10m de separacion entre los puntos se considera como igual
+
+        return d <= 20; //10m de separacion entre los puntos se considera como igual (se cambio a 20 el 27/11/2016)
     }
-    
+
     public String llenar_matriz(String posicion, String perfil) {
         String info = "Matriz llena";
         Nodo nuevo = new Nodo(posicion, perfil);
