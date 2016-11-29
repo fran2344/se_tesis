@@ -28,7 +28,6 @@ public class Conexion {
 
     public Conexion() {
         this.host = "localhost";
-        //this.host = "ec2-54-191-108-207.us-west-2.compute.amazonaws.com";
         this.port = "5432";
         this.db = "profile";
         this.user = "postgres";

@@ -70,13 +70,13 @@ public class Matriz implements java.io.Serializable {
         } else {
             //no se hace nada porque no ha configurado un perfil para ese dia
             //podriamos hacer una sugerencia
-            new Conexion().insertarBitacora("19", OTROS, "Se opera sobre Fila: "+H+" Pero se encuentra vacia dia:"+P);
+            new Conexion().insertarBitacora("19", INFO_MATRIZ, "[1]Se opera sobre Fila: "+H+" Pero se encuentra vacia dia: "+bandera);
         }
         if (info.equals("")) {
             info = "null";
         }
         //Esta para revisar el buen funcionamiento de H
-        new Conexion().insertarBitacora("19", OTROS, "Se opera sobre Fila: "+H+" y dia del mes: "+P);
+        new Conexion().insertarBitacora("19", INFO_MATRIZ, "[2]Se opera sobre Fila: "+H+" y dia del mes: "+bandera);
         return info;
     }
 
