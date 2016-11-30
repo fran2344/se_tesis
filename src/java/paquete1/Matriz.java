@@ -102,7 +102,7 @@ public class Matriz implements java.io.Serializable {
         H = Hours + H;
 
         for (int i = H; i < H + 1; i++) {
-            matrix[i][bandera] = nuevo;
+            matrix[i][(bandera <= 3)?bandera:3] = nuevo;
         }
     }
 
