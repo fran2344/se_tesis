@@ -10,7 +10,7 @@ public class Matriz implements java.io.Serializable {
 
     public int id;
     public Nodo[][] matrix = new Nodo[72][4];
-    public int bandera = 0;
+    private int bandera = 0;
     public String posicion_g = "";
 //bandera nos indica en que dia del mes estamos es decir
 //primer lunes del mes o segundo o tercero
@@ -102,7 +102,7 @@ public class Matriz implements java.io.Serializable {
         H = Hours + H;
 
         for (int i = H; i < H + 1; i++) {
-            matrix[i][(bandera <= 3)?bandera:3] = nuevo;
+            matrix[i][bandera] = nuevo;
         }
     }
 
@@ -262,5 +262,13 @@ public class Matriz implements java.io.Serializable {
             }
         }
         return info;
+    }
+
+    public int getBandera() {
+        return bandera;
+    }
+
+    public void setBandera(int bandera) {
+        this.bandera = (bandera<=3)?bandera:3;
     }
 }

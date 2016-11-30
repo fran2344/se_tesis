@@ -32,7 +32,7 @@ public class tesis {
             new Conexion().insertarBitacora(id_phone, OTROS, "Fichero no existia ["+sFichero+"] [consultar]");
         }
         //ya tengo un documento estable por cada telefono
-        mat.bandera = dia_del_mes;
+        mat.setBandera(dia_del_mes);
         prueba = mat.consulta(hora, posicion, dia_del_mes);
         mat.escribir(sFichero); // grabo cambios en el fichero creado
         
@@ -69,7 +69,7 @@ public class tesis {
         //prueba = set_perfil(id_phone, perfil); Mejor ya no lo hacemos :D
         ////
 
-        mat.bandera = dia_del_mes;
+        mat.setBandera(dia_del_mes);
         mat.ingresar(hora, posicion, perfil);
         mat.escribir(sFichero);
         
