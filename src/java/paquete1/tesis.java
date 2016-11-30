@@ -14,7 +14,7 @@ public class tesis {
 
     @WebMethod(operationName = "consultar")
     public String consultar(String id_phone, String hora, String posicion, int dia_del_mes, int dia) throws IOException, ClassNotFoundException {
-        if(dia_del_mes==5)dia_del_mes=4;
+        //if(dia_del_mes==5)dia_del_mes=4;
         String sFichero = id_phone + "_" + dia + ".dat"; //se busca el fichero del usuario
         String prueba = "no se creo fichero";
         if (sFichero.equals("")) {
@@ -33,7 +33,7 @@ public class tesis {
         }
         //ya tengo un documento estable por cada telefono
         mat.setBandera(dia_del_mes);
-        prueba = mat.consulta(hora, posicion, dia_del_mes);
+        prueba = mat.consulta(hora, posicion);
         mat.escribir(sFichero); // grabo cambios en el fichero creado
         
         new Conexion().insertarBitacora(id_phone, CONSULTAR_DATOS, "Consulta de datos desde la posicion ["+posicion+"], "

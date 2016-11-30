@@ -19,7 +19,7 @@ public class Matriz implements java.io.Serializable {
 
     }
 
-    public String consulta(String Hora, String P, int bandera) { //aqui deberia ir tambien el parametro perfil (hora y posición)
+    public String consulta(String Hora, String P) { //aqui deberia ir tambien el parametro perfil (hora y posición)
         String info = "";
         String[] hora_minuto = Hora.split(":");
         int Hours = Integer.parseInt(hora_minuto[0]);
