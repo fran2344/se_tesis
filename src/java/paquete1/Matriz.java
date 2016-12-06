@@ -25,7 +25,7 @@ public class Matriz implements java.io.Serializable {
         int Hours = Integer.parseInt(hora_minuto[0]);
         int Minute = Integer.parseInt(hora_minuto[1]);
         int H = convertir_minuto(Minute);
-        H = Hours + H;
+        H = (Hours*3) + H;
 
         if (matrix[H][bandera] != null) { //si la posicion consultada esta llena
             if (compararPosiciones(matrix[H][bandera].posicion, P)) { //si la posicion es la misma ya guardada
@@ -83,11 +83,11 @@ public class Matriz implements java.io.Serializable {
     public int convertir_minuto(int minuto) { //devuelve un minuto como puntero de la matriz
         int minute = 0;
         if (minute <= 20) {
-            minute = 1;
+            minute = 0;
         } else if (minute <= 40) {
-            minute = 2;
+            minute = 1;
         } else if (minute > 40) {
-            minute = 3;
+            minute = 2;
         }
         return minute;
     }
@@ -99,7 +99,7 @@ public class Matriz implements java.io.Serializable {
         int Hours = Integer.parseInt(hora_minuto[0]);
         int Minute = Integer.parseInt(hora_minuto[1]);
         int H = convertir_minuto(Minute);
-        H = Hours + H;
+        H = (Hours*3) + H;
 
         for (int i = H; i < H + 1; i++) {
             matrix[i][bandera] = nuevo;
